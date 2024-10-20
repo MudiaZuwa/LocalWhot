@@ -3,7 +3,7 @@ export default class GameBody {
     this.GameManager = GameManager;
     this.ctx = GameManager.ctx;
     this.background = new Image();
-    this.background.src = "/Resources/TableBackground.jpg";
+    this.background.src = "/Resources/TableBackground.jpeg";
   }
 
   animate() {
