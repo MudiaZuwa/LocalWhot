@@ -1,0 +1,23 @@
+{
+  "name": "LocalWhot",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "scripts": {
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "PressStart2P";
+  src: url("./PressStart2P-Regular.ttf") format("truetype");
+}
+
+* {
+  font-family: "PressStart2P";
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#gameScreen {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#left_touch,
+#right_touch,
+#center_touch {
+  flex-grow: 1;
+  height: 100%;
+  z-index: 10;
+  margin-top: 60px;
+}
+
+#pause_img {
+  width: 40px;
+  height: 40px;
+  margin: 8px;
+  z-index: 8;
+}
+
+#lives_img {
+  width: 40px;
+  height: 40px;
+  margin: 8px;
+}
+
+#head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
