@@ -11,6 +11,7 @@ export default class GameBody {
 
     //Aninimate Background/ |Bottom Frame
     this.ctx.fillStyle = "#eee";
+    // console.log(gameDimensions);
     this.ctx.fillRect(0, 0, gameDimensions.width, gameDimensions.height);
     this.ctx.drawImage(
       this.background,

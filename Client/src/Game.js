@@ -11,11 +11,13 @@ export default class GameManager {
     gameDimensions,
     isMultiplayer,
     roomName,
-    setUsersNumber
+    setUsersNumber,
+    isMobile
   ) {
     this.ctx = ctx;
     this.canvas = gameCanvas;
     this.gameDimensions = gameDimensions;
+    this.isLandScape = isMobile;
     this.players = [];
     this.playerTurn = "player1";
     this.player = "player1";

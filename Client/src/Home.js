@@ -12,7 +12,7 @@ const Home = () => {
   const lastTimeRef = useRef(0);
   const [gameWidth, setGameWidth] = useState(window.innerWidth);
   const [gameHeight, setGameHeight] = useState(window.innerHeight);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(null);
   const [isLandscape, setIsLandscape] = useState(true);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [gameStart, setGameStart] = useState(null);
@@ -26,26 +26,44 @@ const Home = () => {
 
   useEffect(() => {
     window.addEventListener("resize", () =>
-      handleResize(gameRef, canvasRef, setGameWidth, setGameHeight)
+      handleResize(
+        gameRef,
+        canvasRef,
+        gameBodyRef,
+        setGameWidth,
+        setGameHeight,
+        isMobile
+      )
     );
-    handleResize(gameRef, canvasRef, setGameWidth, setGameHeight);
+
     return () => {
       window.removeEventListener("resize", () =>
-        handleResize(gameRef, canvasRef, setGameWidth, setGameHeight)
+        handleResize(
+          gameRef,
+          canvasRef,
+          gameBodyRef,
+          setGameWidth,
+          setGameHeight,
+          isMobile
+        )
       );
     };
-  }, []);
+  }, [canvasRef, gameBodyRef]);
 
   useEffect(() => {
     if (
       ((isMultiplayer && roomName !== "") || !isMultiplayer) &&
       isMultiplayer !== null &&
-      (!isMobile || (isMobile && isFullScreen && isLandscape))
+      isMobile !== null
     ) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
-      const gameDimensions = { width: gameWidth, height: gameHeight };
 
+      const gameDimensions = {
+        width: isMobile ? gameHeight : gameWidth,
+        height: isMobile ? gameWidth : gameHeight,
+      };
+      
       if (!gameRef.current) {
         gameRef.current = new GameManager(
           ctx,
@@ -53,14 +71,25 @@ const Home = () => {
           gameDimensions,
           isMultiplayer,
           roomName,
-          setUsersNumber
+          setUsersNumber,
+          isMobile
+        );
+        handleResize(
+          gameRef,
+          canvasRef,
+          gameBodyRef,
+          setGameWidth,
+          setGameHeight,
+          isMobile
         );
 
         const animate = (timestamp) => {
           const deltaTime = timestamp - lastTimeRef.current;
           lastTimeRef.current = timestamp;
 
-          ctx.clearRect(0, 0, gameWidth, gameHeight);
+          if (!gameRef.current.isLandScape)
+            ctx.clearRect(0, 0, gameWidth, gameHeight);
+          else ctx.clearRect(0, 0, gameHeight, gameWidth);
           gameRef.current.animate(deltaTime);
 
           requestAnimationFrame(animate);
@@ -109,9 +138,7 @@ const Home = () => {
           setIsMultiplayer={setIsMultiplayer}
         />
 
-        {(isFullScreen || !isMobile || isMultiplayer !== null) && (
-          <canvas id="gameScreen" ref={canvasRef} />
-        )}
+        {isMultiplayer !== null && <canvas id="gameScreen" ref={canvasRef} />}
       </div>
     </Container>
   );

@@ -12,9 +12,10 @@ export default class MouseListener {
     this.canvas.addEventListener("mousedown", (e) => {
       const { Cards } = this.gameManager;
       if (Cards) {
-        const clientX = e.offsetX;
-        const clientY = e.offsetY;
-
+        const [clientX, clientY] = this.reverseCoordinates(
+          e.offsetX,
+          e.offsetY
+        );
         if (!Cards.stacks) return;
 
         Object.keys(Cards.stacks).forEach((stack) => {
@@ -118,6 +119,24 @@ export default class MouseListener {
     return Object.keys(this.gameManager.Cards.stacks).find((stack) =>
       this.gameManager.Cards.stacks[stack].cards.includes(card)
     );
+  }
+
+  reverseCoordinates(clientX, clientY) {
+    const isLandScape = this.gameManager.isLandScape;
+    if (isLandScape) {
+      const canvasRect = this.canvas.getBoundingClientRect();
+      let x = clientX - canvasRect.left;
+      let y = clientY - canvasRect.top;
+
+      const originalX = x * Math.cos(-Math.PI / 2) - y * Math.sin(-Math.PI / 2);
+      const originalY = x * Math.sin(Math.PI / 2) + y * Math.cos(-Math.PI / 2);
+
+      const reversedOriginalY = this.canvas.width - originalY;
+
+      return [originalX, reversedOriginalY];
+    } else {
+      return [clientX, clientY];
+    }
   }
 
   deselectCard() {

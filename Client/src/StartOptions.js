@@ -67,7 +67,7 @@ const StartOptions = ({
     >
       {renderWinAndCardsInfo()}
 
-      {(!isMobile || (isMobile && isFullScreen)) && !gameStart && (
+      {!gameStart && (
         <>
           {isMultiplayer ? (
             <>
@@ -102,23 +102,6 @@ const StartOptions = ({
             </>
           )}
         </>
-      )}
-
-      {!isFullScreen && isMobile && (
-        <Button
-          onClick={() =>
-            setupFullScreenAndRotate(
-              gameBodyRef,
-              setIsFullScreen,
-              setIsLandscape
-            )
-          }
-          style={{
-            marginTop: "20px",
-          }}
-        >
-          Enable Fullscreen & Rotate
-        </Button>
       )}
     </div>
   );
